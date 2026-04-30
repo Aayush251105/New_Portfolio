@@ -1,0 +1,389 @@
+/* ===== SECTION ===== */
+.tech-section {
+  position: relative;
+  z-index: 1;
+  padding: 80px 0 60px;
+}
+
+/* ===== HEADING BUTTON ===== */
+.tech-heading-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tech-heading-btn:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 8px;
+  border-radius: 12px;
+}
+
+.tech-heading {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: var(--text-strong);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  transition: color 200ms ease;
+}
+
+.tech-heading-btn:hover .tech-heading {
+  color: var(--secondary);
+}
+
+.tech-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--surface-highlight);
+  color: var(--secondary);
+  transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tech-chevron--open {
+  transform: rotate(180deg);
+}
+
+.tech-subtitle {
+  margin: 10px 0 0;
+  color: var(--text-muted);
+  font-size: 1rem;
+  font-weight: 400;
+  pointer-events: none;
+}
+
+/* ===== CAROUSEL ===== */
+.carousel-wrapper {
+  position: relative;
+  overflow-x: clip;
+  overflow-y: visible;
+  margin-top: 40px;
+  padding: 44px 0 20px;
+  max-height: 180px;
+  opacity: 1;
+  transition:
+    max-height 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 350ms ease,
+    margin-top 500ms ease;
+}
+
+.carousel-wrapper--hidden {
+  max-height: 0;
+  opacity: 0;
+  margin-top: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+/* Edge fade masks */
+.carousel-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.carousel-fade--left {
+  left: 0;
+  background: linear-gradient(to right, var(--page-bg), transparent);
+}
+
+.carousel-fade--right {
+  right: 0;
+  background: linear-gradient(to left, var(--page-bg), transparent);
+}
+
+/* Track — infinite scroll via CSS animation */
+.carousel-track {
+  display: flex;
+  gap: 28px;
+  width: max-content;
+  animation: carouselScroll 32s linear infinite;
+}
+
+.carousel-wrapper:hover .carousel-track {
+  animation-play-state: running;
+}
+
+/* Pause entire track when ANY item is hovered */
+.carousel-item:hover ~ .carousel-item,
+.carousel-item:hover {
+  /* handled below via parent */
+}
+
+/* We pause when ANY carousel-item is hovered; the CSS selector targets the track */
+.carousel-track:has(.carousel-item:hover) {
+  animation-play-state: paused;
+}
+
+@keyframes carouselScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* translate by exactly 50% — the first set of items */
+    transform: translateX(-50%);
+  }
+}
+
+/* Individual item */
+.carousel-item {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 82px;
+  height: 82px;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface);
+  cursor: default;
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.carousel-item:hover {
+  transform: translateY(-6px) scale(1.08);
+  border-color: var(--secondary);
+  box-shadow:
+    0 0 24px rgba(0, 240, 255, 0.15),
+    0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.carousel-icon {
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12));
+  transition: filter 200ms ease;
+}
+
+.carousel-item:hover .carousel-icon {
+  filter: drop-shadow(0 4px 14px rgba(0, 240, 255, 0.2));
+}
+
+/* Tooltip */
+.carousel-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: var(--surface-elevated);
+  color: var(--text-strong);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  border: 1px solid var(--border-strong);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.carousel-tooltip--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Small triangle under tooltip */
+.carousel-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--surface-elevated);
+}
+
+/* ===== EXPANDED GRID ===== */
+.tech-grid-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 400ms ease 100ms;
+  overflow: hidden;
+}
+
+.tech-grid-wrapper--visible {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin-top: 40px;
+}
+
+.tech-grid {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 16px;
+  overflow: hidden;
+}
+
+.tech-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+  cursor: default;
+  animation: techCardFadeIn 400ms ease both;
+}
+
+.tech-grid-wrapper--visible .tech-card:nth-child(1)  { animation-delay:  30ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(2)  { animation-delay:  60ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(3)  { animation-delay:  90ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(4)  { animation-delay: 120ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(5)  { animation-delay: 150ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(6)  { animation-delay: 180ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(7)  { animation-delay: 210ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(8)  { animation-delay: 240ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(9)  { animation-delay: 270ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(10) { animation-delay: 300ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(11) { animation-delay: 330ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(12) { animation-delay: 360ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(13) { animation-delay: 390ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(14) { animation-delay: 420ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(15) { animation-delay: 450ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(16) { animation-delay: 480ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(17) { animation-delay: 510ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(18) { animation-delay: 540ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(19) { animation-delay: 570ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(20) { animation-delay: 600ms; }
+.tech-grid-wrapper--visible .tech-card:nth-child(21) { animation-delay: 630ms; }
+
+@keyframes techCardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.tech-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--secondary);
+  box-shadow:
+    0 0 20px rgba(0, 240, 255, 0.12),
+    0 10px 28px rgba(0, 0, 0, 0.16);
+}
+
+.tech-card-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12));
+}
+
+.tech-card:hover .tech-card-icon {
+  filter: drop-shadow(0 4px 14px rgba(0, 240, 255, 0.18));
+}
+
+.tech-card-name {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.01em;
+}
+
+.tech-card:hover .tech-card-name {
+  color: var(--text-strong);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 720px) {
+  .tech-section {
+    padding: 50px 0 40px;
+  }
+
+  .carousel-item {
+    width: 66px;
+    height: 66px;
+    border-radius: 12px;
+  }
+
+  .carousel-icon {
+    width: 34px;
+    height: 34px;
+  }
+
+  .carousel-track {
+    gap: 18px;
+  }
+
+  .tech-grid {
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 12px;
+  }
+
+  .tech-card {
+    padding: 16px 10px;
+    border-radius: 12px;
+  }
+
+  .tech-card-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tech-card-name {
+    font-size: 0.74rem;
+  }
+
+  .carousel-fade {
+    width: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carousel-track {
+    animation: none;
+  }
+
+  .tech-card {
+    animation: none;
+  }
+
+  .carousel-item,
+  .tech-card,
+  .tech-chevron,
+  .carousel-tooltip {
+    transition: none;
+  }
+}

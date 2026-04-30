@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+  --font-body: 'Inter', sans-serif;
+  --font-heading: 'Space Grotesk', 'Inter', sans-serif;
+  --shadow-soft: 0 24px 60px rgba(6, 10, 20, 0.18);
+}
+
+:root,
+:root[data-theme='light'] {
+  --page-bg: #eef2ff;
+  --page-pattern: rgba(32, 6, 69, 0.11);
+  --surface: rgba(245, 247, 255, 0.9);
+  --surface-elevated: #dfe4ff;
+  --surface-highlight: rgba(0, 240, 255, 0.12);
+  --border-soft: rgba(74, 85, 104, 0.14);
+  --border-strong: rgba(74, 85, 104, 0.22);
+  --text-strong: #18213f;
+  --text-muted: #5a6586;
+  --text-soft: #33415f;
+  --primary: #2e5bff;
+  --primary-deep: #2434a8;
+  --secondary: #00f0ff;
+  --accent: #7000ff;
+  --accent-glow: rgba(46, 91, 255, 0.2);
+  --emerald-glow: rgba(0, 240, 255, 0.2);
+  --primary-glow: rgba(46, 91, 255, 0.24);
+  --secondary-glow: rgba(0, 240, 255, 0.18);
+  --primary-border: rgba(46, 91, 255, 0.32);
+  --button-text: #f7f9ff;
+  --toggle-shift: 0;
+}
+
+:root[data-theme='dark'] {
+  --page-bg: #020617;
+  --page-pattern: rgba(255, 255, 255, 0.1);
+  --surface: rgba(17, 24, 45, 0.86);
+  --surface-elevated: #1c2340;
+  --surface-highlight: rgba(46, 91, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --text-strong: #eef1ff;
+  --text-muted: #a5b0d0;
+  --text-soft: #c2cae1;
+  --primary: #2e5bff;
+  --primary-deep: #b8c3ff;
+  --secondary: #c7ffff;
+  --accent: #7000ff;
+  --accent-glow: rgba(46, 91, 255, 0.26);
+  --emerald-glow: rgba(0, 240, 255, 0.18);
+  --primary-glow: rgba(46, 91, 255, 0.28);
+  --secondary-glow: rgba(0, 240, 255, 0.16);
+  --primary-border: rgba(184, 195, 255, 0.22);
+  --button-text: #f4f6ff;
+  --toggle-shift: 0.88rem;
+  --shadow-soft: 0 24px 60px rgba(0, 0, 0, 0.32);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: clip;
+  font-family: var(--font-body);
+  color: var(--text-strong);
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 28%),
+    radial-gradient(var(--page-pattern) 1.1px, transparent 1.1px),
+    var(--page-bg);
+  background-size: auto, 18px 18px, auto;
+  background-position: center top, center top, center top;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a,
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(16, 185, 129, 0.24);
+}
