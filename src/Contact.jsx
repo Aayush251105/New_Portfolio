@@ -1,22 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import './Contact.css'
 
-/* ─────────────────────────────────────────────
- *  DATA — update links / info here
- * ───────────────────────────────────────────── */
 const contactInfo = {
   email: 'aayushgupta054@gmail.com',
   location: 'Financial District, Hyderabad',
 }
 
 const socialLinks = [
-  { id: 'linkedin', label: 'LinkedIn', url: 'https://linkedin.com/in/aayushgupta' },
-  { id: 'github', label: 'GitHub', url: 'https://github.com/aayushgupta' },
-  { id: 'instagram', label: 'Instagram', url: 'https://instagram.com/aayushgupta' },
-  { id: 'devto', label: 'Dev.to', url: 'https://dev.to/aayushgupta' },
+  { id: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/in/aayush-gupta-b6066b290/' },
+  { id: 'github', label: 'GitHub', url: 'https://github.com/Aayush251105' },
+  { id: 'instagram', label: 'Instagram', url: 'https://www.instagram.com/aayushh.x._/' },
 ]
 
-/* ── Icons ── */
 function SendIcon() {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -35,52 +30,107 @@ function ArrowIcon() {
   )
 }
 
+function buildComposeUrl({ email, subject, body }) {
+  const params = new URLSearchParams({
+    view: 'cm',
+    fs: '1',
+    to: email,
+    su: subject,
+    body,
+  })
+
+  return `https://mail.google.com/mail/?${params.toString()}`
+}
+
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [visible, setVisible] = useState(false)
+  const [submitState, setSubmitState] = useState('idle')
+
+  const composeUrl = useMemo(() => {
+    const subject = form.subject || 'Portfolio Inquiry'
+    const body = `Hi Aayush,\n\nI'm ${form.name || 'your name'} (${form.email || 'your email'}).\n\n${form.message || 'I wanted to get in touch about your work.'}`
+
+    return buildComposeUrl({
+      email: contactInfo.email,
+      subject,
+      body,
+    })
+  }, [form.email, form.message, form.name, form.subject])
 
   useEffect(() => {
     const section = document.getElementById('contact')
     if (!section) return
+
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true) },
-      { threshold: 0.1 }
+      ([entry]) => {
+        if (entry.isIntersecting) setVisible(true)
+      },
+      { threshold: 0.1 },
     )
+
     observer.observe(section)
     return () => observer.disconnect()
   }, [])
 
-  const handleChange = (e) =>
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  const handleChange = (event) => {
+    setForm((prev) => ({ ...prev, [event.target.name]: event.target.value }))
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const mailto = `mailto:${contactInfo.email}?subject=${encodeURIComponent(form.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Hi, I'm ${form.name} (${form.email}).\n\n${form.message}`)}`
-    window.open(mailto, '_blank')
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setSubmitState('sending')
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/aayushgupta054@gmail.com', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          subject: form.subject || 'Portfolio Inquiry',
+          message: form.message,
+          _captcha: false,
+          _template: 'table',
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Form submission failed')
+      }
+
+      setForm({ name: '', email: '', subject: '', message: '' })
+      setSubmitState('success')
+    // eslint-disable-next-line no-unused-vars
+    } catch (error) {
+      window.open(composeUrl, '_blank', 'noopener,noreferrer')
+      setSubmitState('fallback')
+    }
   }
 
   return (
     <section className={`contact-section ${visible ? 'contact-section--visible' : ''}`} id="contact">
-      {/* Decorative orbs */}
       <div className="contact-orb contact-orb--1" />
       <div className="contact-orb contact-orb--2" />
 
-      {/* Header */}
       <div className="contact-header">
         <span className="contact-status">
           <span className="contact-status-dot" />
           Open to Opportunities
         </span>
         <h2 className="contact-title">
-          Let's Build<br />
+          Let's Build
+          <br />
           <span className="contact-title-accent">Something Great</span>
         </h2>
         <p className="contact-subtitle">
-          Whether you have a project in mind, want to discuss the latest in AI, or just want to say hello — my inbox is always open.
+          Whether you have a project in mind, want to discuss the latest in AI, or just want to say hello - my inbox is always open.
         </p>
       </div>
 
-      {/* Glowing form card */}
       <div className="contact-card-glow">
         <div className="contact-card">
           <form onSubmit={handleSubmit} className="contact-form">
@@ -97,8 +147,11 @@ export default function Contact() {
                   required
                   autoComplete="name"
                 />
-                <label className="form-float-label" htmlFor="c-name">Your Name</label>
+                <label className="form-float-label" htmlFor="c-name">
+                  Your Name
+                </label>
               </div>
+
               <div className="form-field">
                 <input
                   id="c-email"
@@ -111,7 +164,9 @@ export default function Contact() {
                   required
                   autoComplete="email"
                 />
-                <label className="form-float-label" htmlFor="c-email">Email Address</label>
+                <label className="form-float-label" htmlFor="c-email">
+                  Email Address
+                </label>
               </div>
             </div>
 
@@ -125,7 +180,9 @@ export default function Contact() {
                 value={form.subject}
                 onChange={handleChange}
               />
-              <label className="form-float-label" htmlFor="c-subject">Subject</label>
+              <label className="form-float-label" htmlFor="c-subject">
+                Subject
+              </label>
             </div>
 
             <div className="form-field">
@@ -139,34 +196,50 @@ export default function Contact() {
                 onChange={handleChange}
                 required
               />
-              <label className="form-float-label" htmlFor="c-message">Your Message</label>
+              <label className="form-float-label" htmlFor="c-message">
+                Your Message
+              </label>
             </div>
 
-            <button type="submit" className="form-submit">
-              <span>Send Message</span>
+            <button type="submit" className="form-submit" disabled={submitState === 'sending'}>
+              <span>
+                {submitState === 'sending'
+                  ? 'Sending...'
+                  : submitState === 'success'
+                    ? 'Message Sent'
+                    : submitState === 'fallback'
+                      ? 'Open Email Draft'
+                      : 'Send Message'}
+              </span>
               <SendIcon />
             </button>
+
+            {(submitState === 'success' || submitState === 'fallback') && (
+              <p className="form-status" aria-live="polite">
+                {submitState === 'success'
+                  ? 'Your message was sent successfully.'
+                  : 'Email draft opened in your browser. Send it from there if you prefer webmail.'}
+              </p>
+            )}
           </form>
         </div>
       </div>
 
-      {/* Quick-connect pills */}
       <div className="contact-pills">
-        <a href={`mailto:${contactInfo.email}`} className="contact-pill">
-          <span className="contact-pill-icon">✉</span>
+        <a href={composeUrl} target="_blank" rel="noopener noreferrer" className="contact-pill">
+          <span className="contact-pill-icon">Email</span>
           {contactInfo.email}
         </a>
         <span className="contact-pill contact-pill--muted">
-          <span className="contact-pill-icon">📍</span>
+          <span className="contact-pill-icon">Location</span>
           {contactInfo.location}
         </span>
       </div>
 
-      {/* Social strip */}
       <div className="contact-socials">
-        {socialLinks.map((s) => (
-          <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer" className="contact-social-link">
-            {s.label}
+        {socialLinks.map((social) => (
+          <a key={social.id} href={social.url} target="_blank" rel="noopener noreferrer" className="contact-social-link">
+            {social.label}
             <ArrowIcon />
           </a>
         ))}
@@ -175,20 +248,33 @@ export default function Contact() {
   )
 }
 
-/* ── Footer ── */
 export function Footer() {
+  const mailCompose = buildComposeUrl({
+    email: contactInfo.email,
+    subject: 'Portfolio Inquiry',
+    body: 'Hi Aayush,\n\nI wanted to get in touch about your portfolio.',
+  })
+
   return (
     <footer className="site-footer">
       <div className="footer-inner">
         <span className="footer-brand">Aayush Gupta</span>
         <span className="footer-copy">
-          © {new Date().getFullYear()} Aayush Gupta &nbsp;|&nbsp; Engineered for Intelligence
+          (c) {new Date().getFullYear()} Aayush Gupta | Engineered for Intelligence
         </span>
         <div className="footer-links">
-          <a href="https://github.com/aayushgupta" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a href="https://linkedin.com/in/aayushgupta" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="https://instagram.com/aayushgupta" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href={`mailto:${contactInfo.email}`}>Mail</a>
+          <a href="https://github.com/Aayush251105" target="_blank" rel="noopener noreferrer">
+            GitHub
+          </a>
+          <a href="https://www.linkedin.com/in/aayush-gupta-b6066b290/" target="_blank" rel="noopener noreferrer">
+            LinkedIn
+          </a>
+          <a href="https://www.instagram.com/aayushh.x._/" target="_blank" rel="noopener noreferrer">
+            Instagram
+          </a>
+          <a href={mailCompose} target="_blank" rel="noopener noreferrer">
+            Mail
+          </a>
         </div>
       </div>
     </footer>

@@ -126,6 +126,7 @@
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: dense;
   gap: 20px;
 }
 
@@ -167,6 +168,10 @@
 /* Wide card spans 2 columns */
 .project-card--wide {
   grid-column: span 2;
+}
+
+.project-card--no-image {
+  min-height: 240px;
 }
 
 /* ===== CARD VISUAL ===== */

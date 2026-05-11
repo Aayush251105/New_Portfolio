@@ -8,7 +8,7 @@ const experienceData = [
   {
     id: 'kyndryl',
     company: 'Kyndryl',
-    role: 'Incoming Intern',
+    role: 'IT Systems & Automation Intern',
     period: 'May 2026 – July 2026',
     description:
       'Selected for the upcoming internship program at the world\'s largest IT infrastructure services provider. Ready to contribute to large-scale enterprise solutions.',

@@ -277,6 +277,18 @@
   transform: translateY(0);
 }
 
+.form-submit:disabled {
+  cursor: progress;
+  opacity: 0.75;
+}
+
+.form-status {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 /* ============================================================
  *  QUICK-CONNECT PILLS
  * ============================================================ */
@@ -323,7 +335,12 @@
 }
 
 .contact-pill-icon {
-  font-size: 1.05rem;
+  min-width: 56px;
+  color: var(--secondary);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* ============================================================
