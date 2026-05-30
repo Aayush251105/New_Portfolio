@@ -44,12 +44,12 @@
   --text-soft: #c2cae1;
   --primary: #2e5bff;
   --primary-deep: #b8c3ff;
-  --secondary: #c7ffff;
+  --secondary: #8ff6ff;
   --accent: #7000ff;
   --accent-glow: rgba(46, 91, 255, 0.26);
-  --emerald-glow: rgba(0, 240, 255, 0.18);
+  --emerald-glow: rgba(143, 246, 255, 0.2);
   --primary-glow: rgba(46, 91, 255, 0.28);
-  --secondary-glow: rgba(0, 240, 255, 0.16);
+  --secondary-glow: rgba(143, 246, 255, 0.18);
   --primary-border: rgba(184, 195, 255, 0.22);
   --button-text: #f4f6ff;
   --toggle-shift: 0.88rem;
