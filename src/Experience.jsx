@@ -1,28 +1,24 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import './Experience.css'
 
-/* ─────────────────────────────────────────────
- *  EXPERIENCE DATA
- * ───────────────────────────────────────────── */
 const experienceData = [
   {
     id: 'kyndryl',
     company: 'Kyndryl',
     role: 'Software Engineering Intern',
-    period: 'May 2026 – July 2026',
-    description:
-      null,
+    period: 'May 2026 - July 2026',
+    description: null,
     bullets: [
       'Working on a cloud-native report generation platform built using Java, Quarkus, Microservices, Azure Service Bus, Azure Cosmos DB, Redis, and OpenShift.',
-      'Contributing to the design and implementation of distributed asynchronous processing, fault-tolerant report generation, and heartbeat-based liveness monitoring to improve reliability and recovery of long-running workloads.'
+      'Contributing to the design and implementation of distributed asynchronous processing, fault-tolerant report generation, and heartbeat-based liveness monitoring to improve reliability and recovery of long-running workloads.',
     ],
-    tags: [ 'Enterprise Applications' , 'Microsoft Azure'],
+    tags: ['Enterprise Applications', 'Microsoft Azure'],
   },
   {
     id: 'acm',
     company: 'ACM Shiv Nadar Chapter',
     role: 'Public Relations Lead',
-    period: 'May 2025 – May 2026',
+    period: 'May 2025 - May 2026',
     description: null,
     bullets: [
       'Spearheaded outreach strategies resulting in a 20% increase in member participation.',
@@ -42,15 +38,12 @@ const experienceData = [
   },
 ]
 
-/* ─────────────────────────────────────────────
- *  EDUCATION DATA
- * ───────────────────────────────────────────── */
 const universityData = {
   institution: 'Shiv Nadar University',
   degree: 'B.Tech in Computer Science & Engineering',
   score: '9.30',
   scoreLabel: 'CGPA',
-  honors: '4x Recipient of the Dean\'s List Award for Academic Excellence',
+  honors: "4x Recipient of the Dean's List Award for Academic Excellence",
 }
 
 const schoolsData = [
@@ -68,7 +61,6 @@ const schoolsData = [
   },
 ]
 
-/* ── Icons ── */
 function BriefcaseIcon() {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -96,12 +88,20 @@ function AwardIcon() {
   )
 }
 
+function ChevronDownIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M6 9l6 6 6-6" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
 export default function Experience() {
   const timelineRef = useRef(null)
   const [lineProgress, setLineProgress] = useState(0)
   const [visibleCards, setVisibleCards] = useState(new Set())
+  const [mobileExpanded, setMobileExpanded] = useState(new Set())
 
-  /* ── Scroll-driven timeline line ── */
   const handleScroll = useCallback(() => {
     if (!timelineRef.current) return
     const rect = timelineRef.current.getBoundingClientRect()
@@ -116,62 +116,70 @@ export default function Experience() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [handleScroll])
 
-  /* ── IntersectionObserver ── */
   useEffect(() => {
     const cards = document.querySelectorAll('[data-reveal]')
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting)
+          if (entry.isIntersecting) {
             setVisibleCards((prev) => new Set([...prev, entry.target.dataset.reveal]))
+          }
         })
       },
-      { threshold: 0.2, rootMargin: '0px 0px -40px 0px' }
+      { threshold: 0.2, rootMargin: '0px 0px -40px 0px' },
     )
-    cards.forEach((c) => observer.observe(c))
+
+    cards.forEach((card) => observer.observe(card))
     return () => observer.disconnect()
   }, [])
 
   const isVisible = (id) => visibleCards.has(id)
 
+  const toggleMobileExpanded = (id) => {
+    setMobileExpanded((prev) => {
+      const next = new Set(prev)
+      if (next.has(id)) {
+        next.delete(id)
+      } else {
+        next.add(id)
+      }
+      return next
+    })
+  }
+
   return (
     <section className="journey-section" id="experience">
-      {/* ── Section header ── */}
       <div className="journey-header">
         <h2 className="journey-title">
           Journey & <span className="journey-title-accent">Academics</span>
         </h2>
-        <p className="journey-subtitle">
-          A roadmap of professional growth and academic excellence.
-        </p>
+        <p className="journey-subtitle">A roadmap of professional growth and academic excellence.</p>
       </div>
 
-      {/* ── Experience heading ── */}
       <h3 className="journey-col-heading">
-        <span className="journey-col-icon"><BriefcaseIcon /></span>
+        <span className="journey-col-icon">
+          <BriefcaseIcon />
+        </span>
         Experience
       </h3>
 
-      {/* ── Centered alternating timeline ── */}
       <div className="timeline" ref={timelineRef}>
-        {/* Center track */}
         <div className="timeline-track">
-          <div
-            className="timeline-line"
-            style={{ height: `${lineProgress * 100}%` }}
-          />
+          <div className="timeline-line" style={{ height: `${lineProgress * 100}%` }} />
         </div>
 
         {experienceData.map((item, idx) => {
           const side = idx % 2 === 0 ? 'right' : 'left'
           const dotActive = lineProgress > idx / experienceData.length
+
           return (
             <div
               key={item.id}
-              className={`timeline-entry timeline-entry--${side} ${isVisible(item.id) ? 'timeline-entry--visible' : ''}`}
+              className={`timeline-entry timeline-entry--${side} ${
+                isVisible(item.id) ? 'timeline-entry--visible' : ''
+              }`}
               data-reveal={item.id}
             >
-              {/* Left spacer / card */}
               <div className="timeline-entry-left">
                 {side === 'left' && (
                   <div className="exp-card">
@@ -180,12 +188,10 @@ export default function Experience() {
                 )}
               </div>
 
-              {/* Center dot */}
               <div className="timeline-dot-wrapper">
                 <div className={`timeline-dot ${dotActive ? 'timeline-dot--active' : ''}`} />
               </div>
 
-              {/* Right spacer / card */}
               <div className="timeline-entry-right">
                 {side === 'right' && (
                   <div className="exp-card">
@@ -198,14 +204,74 @@ export default function Experience() {
         })}
       </div>
 
-      {/* ── Education ── */}
+      <div className="journey-mobile-list">
+        {experienceData.map((item) => {
+          const expanded = mobileExpanded.has(item.id)
+          const hasMore = Boolean(item.bullets && item.bullets.length > 1)
+          const bullets = item.bullets || []
+          const previewBullets = bullets.slice(0, 1)
+          const visibleBullets = expanded ? bullets : previewBullets
+
+          return (
+            <article
+              key={item.id}
+              className={`exp-card exp-card--mobile ${expanded ? 'exp-card--expanded' : ''}`}
+              data-reveal={`${item.id}-mobile`}
+            >
+              <div className="exp-card-header exp-card-header--mobile">
+                <div>
+                  <h4 className="exp-card-company">{item.company}</h4>
+                  <span className="exp-card-role">{item.role}</span>
+                </div>
+                <span className="exp-card-period">{item.period}</span>
+              </div>
+
+              {item.description && <p className="exp-card-desc">{item.description}</p>}
+
+              {visibleBullets.length > 0 && (
+                <ul className="exp-card-bullets exp-card-bullets--mobile">
+                  {visibleBullets.map((bullet, index) => (
+                    <li key={index}>{bullet}</li>
+                  ))}
+                </ul>
+              )}
+
+              <div className="exp-card-mobile-footer">
+                {item.tags && (
+                  <div className="exp-card-tags">
+                    {item.tags.map((tag) => (
+                      <span key={tag} className="exp-tag">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {hasMore && (
+                  <button
+                    type="button"
+                    className="exp-card-more"
+                    onClick={() => toggleMobileExpanded(item.id)}
+                    aria-expanded={expanded}
+                    aria-label={expanded ? `Collapse ${item.company}` : `Expand ${item.company}`}
+                  >
+                    <ChevronDownIcon />
+                  </button>
+                )}
+              </div>
+            </article>
+          )
+        })}
+      </div>
+
       <h3 className="journey-col-heading journey-col-heading--edu">
-        <span className="journey-col-icon"><GraduationIcon /></span>
+        <span className="journey-col-icon">
+          <GraduationIcon />
+        </span>
         Education
       </h3>
 
       <div className="edu-grid">
-        {/* University — spans 2 rows */}
         <div
           className={`edu-card edu-card--university ${isVisible('snu') ? 'edu-card--visible' : ''}`}
           data-reveal="snu"
@@ -219,7 +285,9 @@ export default function Experience() {
           </div>
 
           <div className="edu-honors">
-            <span className="edu-honors-icon"><AwardIcon /></span>
+            <span className="edu-honors-icon">
+              <AwardIcon />
+            </span>
             <div>
               <span className="edu-honors-label">Honors & Awards</span>
               <p className="edu-honors-text">{universityData.honors}</p>
@@ -227,7 +295,6 @@ export default function Experience() {
           </div>
         </div>
 
-        {/* School cards — stacked on the right */}
         {schoolsData.map((school) => (
           <div
             key={school.id}
@@ -244,7 +311,6 @@ export default function Experience() {
   )
 }
 
-/* ── Reusable card content ── */
 function ExpCardContent({ item }) {
   return (
     <>
@@ -256,14 +322,12 @@ function ExpCardContent({ item }) {
         <span className="exp-card-period">{item.period}</span>
       </div>
 
-      {item.description && (
-        <p className="exp-card-desc">{item.description}</p>
-      )}
+      {item.description && <p className="exp-card-desc">{item.description}</p>}
 
       {item.bullets && (
         <ul className="exp-card-bullets">
-          {item.bullets.map((b, i) => (
-            <li key={i}>{b}</li>
+          {item.bullets.map((bullet, index) => (
+            <li key={index}>{bullet}</li>
           ))}
         </ul>
       )}
@@ -271,7 +335,9 @@ function ExpCardContent({ item }) {
       {item.tags && (
         <div className="exp-card-tags">
           {item.tags.map((tag) => (
-            <span key={tag} className="exp-tag">{tag}</span>
+            <span key={tag} className="exp-tag">
+              {tag}
+            </span>
           ))}
         </div>
       )}

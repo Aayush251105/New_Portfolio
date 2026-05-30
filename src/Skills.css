@@ -308,27 +308,64 @@
 
 @media (max-width: 600px) {
   .skills-section {
-    padding: 40px 0 50px;
+    padding: 34px 0 42px;
+  }
+
+  .skills-header {
+    margin-bottom: 32px;
   }
 
   .skills-title {
-    font-size: clamp(2rem, 10vw, 2.8rem);
+    font-size: clamp(1.9rem, 10vw, 2.5rem);
+  }
+
+  .skills-subtitle {
+    font-size: 0.96rem;
   }
 
   .skills-grid {
     grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 40px;
   }
 
   .certs-grid {
     grid-template-columns: 1fr;
+    gap: 14px;
   }
 
   .skill-card {
-    padding: 20px 18px;
+    padding: 18px 16px;
+    border-radius: 16px;
+  }
+
+  .skill-card-title {
+    font-size: 1rem;
+  }
+
+  .skill-chip {
+    padding: 5px 12px;
+    font-size: 0.76rem;
   }
 
   .cert-card-banner {
-    height: 100px;
+    height: 88px;
+  }
+
+  .cert-card-body {
+    padding: 16px 16px 18px;
+  }
+
+  .cert-card-name {
+    font-size: 0.98rem;
+  }
+
+  .cert-card-issuer {
+    font-size: 0.8rem;
+  }
+
+  .cert-card-link {
+    font-size: 0.72rem;
   }
 }
 

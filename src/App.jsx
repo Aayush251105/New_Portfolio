@@ -21,6 +21,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('home')
   const [navHidden, setNavHidden] = useState(false)
   const [navRevealing, setNavRevealing] = useState(false)
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const lastScrollY = useRef(0)
   const revealTimeout = useRef(null)
 
@@ -64,12 +65,27 @@ function App() {
     return () => observers.forEach((observer) => observer.disconnect())
   }, [])
 
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 720) {
+        setMobileNavOpen(false)
+      }
+    }
+
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
   const handleScroll = useCallback(() => {
     const currentY = window.scrollY
     const scrollingDown = currentY > lastScrollY.current
     const pastThreshold = currentY > 100
 
     setNavHidden(scrollingDown && pastThreshold)
+
+    if (mobileNavOpen) {
+      setMobileNavOpen(false)
+    }
 
     if (!scrollingDown && navHidden) {
       setNavRevealing(true)
@@ -80,7 +96,7 @@ function App() {
     }
 
     lastScrollY.current = currentY
-  }, [navHidden])
+  }, [mobileNavOpen, navHidden])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll, { passive: true })
@@ -104,12 +120,25 @@ function App() {
           Aayush Gupta
         </a>
 
-        <nav className="nav">
+        <button
+          type="button"
+          className="nav-toggle"
+          onClick={() => setMobileNavOpen((open) => !open)}
+          aria-label={mobileNavOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={mobileNavOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
+        <nav className={`nav ${mobileNavOpen ? 'nav--open' : ''}`}>
           {navLinks.map((item) => (
             <a
               key={item}
               href={`#${item.toLowerCase()}`}
               className={activeSection === item.toLowerCase() ? 'active' : ''}
+              onClick={() => setMobileNavOpen(false)}
             >
               {item}
             </a>

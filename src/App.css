@@ -77,6 +77,29 @@
   gap: 28px;
 }
 
+.nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--text-strong);
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
 .nav a {
   position: relative;
   color: var(--text-muted);
@@ -390,6 +413,11 @@
   50% { transform: translateY(-34px); }
 }
 
+@keyframes avatarFloatMobile {
+  0%, 100% { transform: translateY(10px); }
+  50% { transform: translateY(4px); }
+}
+
 /* ============================================================
  *  HERO ENTRANCE KEYFRAMES
  * ============================================================ */
@@ -551,20 +579,98 @@
     padding: 0 16px 24px;
   }
 
+  .topbar {
+    grid-template-columns: auto auto auto;
+    justify-items: stretch;
+    gap: 10px;
+    min-height: auto;
+    padding: 12px 0 14px;
+  }
+
   .brand {
-    font-size: 1.35rem;
+    font-size: 1.2rem;
+    justify-self: start;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+    justify-self: end;
   }
 
   .nav {
-    gap: 16px;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    display: grid;
+    gap: 0;
+    justify-content: stretch;
+    padding: 10px;
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    background: color-mix(in srgb, var(--page-bg) 88%, transparent);
+    backdrop-filter: blur(18px) saturate(1.25);
+    -webkit-backdrop-filter: blur(18px) saturate(1.25);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-10px);
+    opacity: 0;
+    pointer-events: none;
+    max-height: 0;
+    overflow: hidden;
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease,
+      max-height 220ms ease;
+  }
+
+  .nav.nav--open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+    max-height: 340px;
+  }
+
+  .nav a {
+    display: block;
+    padding: 12px 12px;
+    border-radius: 12px;
+    font-size: 0.92rem;
+  }
+
+  .nav a::after {
+    display: none;
+  }
+
+  .nav a.active,
+  .nav a:hover {
+    background: var(--surface-elevated);
+  }
+
+  .topbar-actions {
+    width: auto;
+    justify-self: end;
+    gap: 10px;
+  }
+
+  .theme-toggle {
+    width: 42px;
+    height: 42px;
+  }
+
+  .resume-link {
+    min-width: 0;
+    height: 42px;
+    padding: 0 14px;
   }
 
   .hero-copy h1 {
-    font-size: clamp(3.1rem, 16vw, 4.4rem);
+    font-size: clamp(2.8rem, 14vw, 4rem);
+    line-height: 0.95;
   }
 
   .hero-text {
-    font-size: 1.12rem;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 
   .hero-actions,
@@ -581,16 +687,24 @@
     width: 100%;
   }
 
+  .button {
+    min-width: 0;
+    height: 48px;
+    padding: 0 18px;
+  }
+
   .hero-stats {
-    gap: 22px;
+    gap: 18px;
+    margin-top: 34px;
   }
 
   .avatar-shell {
-    min-height: 420px;
+    min-height: 340px;
+    overflow: hidden;
   }
 
   .avatar-backdrop {
-    inset: 44px 0 12px;
+    inset: 28px 0 12px;
   }
 
   .avatar-ring-one,
@@ -599,7 +713,92 @@
   }
 
   .hero-avatar {
-    width: min(100%, 320px);
-    transform: translateY(-12px);
+    width: min(100%, 260px);
+    transform: translateY(10px);
+    animation:
+      avatarEntranceMobile 1s cubic-bezier(0.16, 1, 0.3, 1) both,
+      avatarFloatMobile 5.4s ease-in-out 1.4s infinite;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-shell {
+    width: min(100% - 14px, 1280px);
+    padding: 0 10px 18px;
+  }
+
+  .topbar-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .nav-toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .theme-toggle {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 auto;
+  }
+
+  .resume-link {
+    width: auto;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .hero-stage {
+    gap: 24px;
+    padding-top: 28px;
+  }
+
+  .hero-copy h1 {
+    font-size: clamp(2.5rem, 15vw, 3.4rem);
+  }
+
+  .hero-text {
+    font-size: 0.95rem;
+  }
+
+  .stat-item strong {
+    font-size: clamp(1.8rem, 11vw, 2.2rem);
+  }
+
+  .avatar-shell {
+    min-height: 280px;
+  }
+
+  .hero-avatar {
+    width: min(100%, 220px);
+  }
+
+  .toggle-track {
+    width: 28px;
+    height: 16px;
+  }
+
+  .toggle-thumb {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@keyframes avatarEntranceMobile {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.92);
+    filter: blur(10px) drop-shadow(0 26px 80px rgba(0, 0, 0, 0.32));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(10px) scale(1);
+    filter: blur(0) drop-shadow(0 26px 80px rgba(0, 0, 0, 0.32));
   }
 }
