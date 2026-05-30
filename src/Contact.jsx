@@ -260,7 +260,7 @@ export function Footer() {
       <div className="footer-inner">
         <span className="footer-brand">Aayush Gupta</span>
         <span className="footer-copy">
-          (c) {new Date().getFullYear()} Aayush Gupta | Engineered for Intelligence
+          (c) {new Date().getFullYear()} Aayush Gupta | Created with &#10084;
         </span>
         <div className="footer-links">
           <a href="https://github.com/Aayush251105" target="_blank" rel="noopener noreferrer">

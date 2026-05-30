@@ -12,7 +12,7 @@
   --page-pattern: rgba(32, 6, 69, 0.11);
   --surface: rgba(245, 247, 255, 0.9);
   --surface-elevated: #dfe4ff;
-  --surface-highlight: rgba(0, 240, 255, 0.12);
+  --surface-highlight: rgba(78, 108, 255, 0.1);
   --border-soft: rgba(74, 85, 104, 0.14);
   --border-strong: rgba(74, 85, 104, 0.22);
   --text-strong: #18213f;
@@ -20,12 +20,12 @@
   --text-soft: #33415f;
   --primary: #2e5bff;
   --primary-deep: #2434a8;
-  --secondary: #00f0ff;
+  --secondary: #5878f0;
   --accent: #7000ff;
   --accent-glow: rgba(46, 91, 255, 0.2);
-  --emerald-glow: rgba(0, 240, 255, 0.2);
+  --emerald-glow: rgba(88, 120, 240, 0.15);
   --primary-glow: rgba(46, 91, 255, 0.24);
-  --secondary-glow: rgba(0, 240, 255, 0.18);
+  --secondary-glow: rgba(88, 120, 240, 0.18);
   --primary-border: rgba(46, 91, 255, 0.32);
   --button-text: #f7f9ff;
   --toggle-shift: 0;

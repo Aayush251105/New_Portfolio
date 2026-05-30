@@ -8,12 +8,15 @@ const experienceData = [
   {
     id: 'kyndryl',
     company: 'Kyndryl',
-    role: 'IT Systems & Automation Intern',
+    role: 'Software Engineering Intern',
     period: 'May 2026 – July 2026',
     description:
-      'Selected for the upcoming internship program at the world\'s largest IT infrastructure services provider. Ready to contribute to large-scale enterprise solutions.',
-    bullets: null,
-    tags: ['Infrastructure', 'Enterprise Tech'],
+      null,
+    bullets: [
+      'Working on a cloud-native report generation platform built using Java, Quarkus, Microservices, Azure Service Bus, Azure Cosmos DB, Redis, and OpenShift.',
+      'Contributing to the design and implementation of distributed asynchronous processing, fault-tolerant report generation, and heartbeat-based liveness monitoring to improve reliability and recovery of long-running workloads.'
+    ],
+    tags: [ 'Enterprise Applications' , 'Microsoft Azure'],
   },
   {
     id: 'acm',
@@ -25,7 +28,7 @@ const experienceData = [
       'Spearheaded outreach strategies resulting in a 20% increase in member participation.',
       'Coordinated technical workshops and guest speaker sessions for a community of 500+ students.',
     ],
-    tags: null,
+    tags: ['Public Relations', 'Community Building'],
   },
   {
     id: 'godaddy',
@@ -45,9 +48,9 @@ const experienceData = [
 const universityData = {
   institution: 'Shiv Nadar University',
   degree: 'B.Tech in Computer Science & Engineering',
-  score: '9.23',
+  score: '9.30',
   scoreLabel: 'CGPA',
-  honors: '3x Recipient of the Dean\'s List Award for Academic Excellence',
+  honors: '4x Recipient of the Dean\'s List Award for Academic Excellence',
 }
 
 const schoolsData = [

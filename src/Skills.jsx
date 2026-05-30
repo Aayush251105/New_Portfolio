@@ -86,6 +86,22 @@ const certifications = [
     color: '#00C853',
     link: null,
   },
+  {
+    id: 'web-dev-sigma',
+    title: 'Web Development – Sigma 7.0',
+    issuer: 'Apna College',
+    badge: 'Completed',
+    color: '#FFD600',
+    link: null,
+  },
+  {
+    id: 'ai-ml-prime',
+    title: 'AI / ML – Prime 1.0',
+    issuer: 'Apna College',
+    badge: 'In Progress',
+    color: '#FF6D00',
+    link: null,
+  },
 ]
 
 /* ── Icon map ── */

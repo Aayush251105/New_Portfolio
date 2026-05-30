@@ -11,9 +11,9 @@ const navLinks = ['Home', 'Projects', 'Experience', 'Skills', 'Contact']
 const sectionIds = navLinks.map((link) => link.toLowerCase())
 
 const stats = [
-  { value: '9.23', label: 'Current GPA' },
+  { value: '9.30', label: 'Current GPA' },
   { value: 'Kyndryl', label: 'Intern' },
-  { value: '12+', label: 'Projects' },
+  { value: '8+', label: 'Projects' },
 ]
 
 function App() {
